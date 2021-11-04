@@ -1,19 +1,27 @@
-const { getNewLetterCode } = require("./helpers");
+const { getNewLetterCode, SHIFT } = require("./helpers");
 
-function encode(string, shift, direction) {
-  const strArr = string.split('')
+function encode(string, conf) {
+  const shift = SHIFT[conf[0].toLowerCase()];
+  const direction = +conf[1];
+  const strArr = string.split("");
+
   let res = "";
   strArr.forEach((l) => {
     if (/[a-z]/i.exec(l)) {
       const code = l.charCodeAt(0);
-      const newCode = getNewLetterCode(code, l.toUpperCase() === l, shift, direction);
+      const newCode = getNewLetterCode(
+        code,
+        l.toUpperCase() === l,
+        shift,
+        direction
+      );
       res += String.fromCharCode(newCode);
     } else {
       res += l;
     }
   });
 
-  return res
+  return res;
 }
 
 module.exports = { encode };
