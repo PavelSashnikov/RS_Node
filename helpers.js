@@ -41,7 +41,7 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  //argArr = '-i data\\input.txt --output data\\output.txt  -c C0'.split(' ');
+  argArr = '-i data\\input.txt --output data\\output.txt  -c C1-C1-R0-A'.split(' ');
   const inp = argArr.findIndex((el) => el.match(inputPattern));
   const out = argArr.findIndex((el) => el.match(outputPattern));
   const conf = argArr.findIndex((el) => el.match(confPattern));
@@ -60,8 +60,6 @@ function checkConfig(str) {
     throw new ValidationError(0);
   } else if (!norStr.match(config)) {
     throw new ValidationError(1);
-  } else if (findDuplicated(norStr)) {
-    throw new ValidationError(2);
   }
   return norStr;
 }
