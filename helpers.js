@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { ValidationError } = require("./err/confErr");
 const { FileError } = require("./err/fileErr");
+const { GlobalError } = require("./err/globalErr");
 
 const minL = 97;
 const maxL = 122;
@@ -41,7 +42,8 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  argArr = '-i data\\input.txt --output data\\output.txt  -c C1-C1-R0-A'.split(' ');
+  // argArr = "-i data\\input.txt --output data\\output.txt  -c C1-C1-R0-A".split(" ");
+  findDuplicated(argArr);
   const inp = argArr.findIndex((el) => el.match(inputPattern));
   const out = argArr.findIndex((el) => el.match(outputPattern));
   const conf = argArr.findIndex((el) => el.match(confPattern));
@@ -64,13 +66,14 @@ function checkConfig(str) {
   return norStr;
 }
 
-function findDuplicated(str) {
-  const c = str.split("-");
-  const res = c.some(function (el, i, arr) {
-    return arr.lastIndexOf(el) != i;
+function findDuplicated(arr) {
+  const res = arr.some(function (el, i, arr) {
+    return arr.lastIndexOf(el) != i && el[0] === "-";
   });
 
-  return res;
+  if (res) {
+    throw new GlobalError("duplicated parameters was found");
+  }
 }
 
 function getFileSrc(path, key) {

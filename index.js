@@ -15,6 +15,7 @@ const readStream = arg.i
 const writeStream = getFileSrc(arg.o, fs.constants.W_OK)
   ? fs.createWriteStream(arg.o, {
       flags: "a",
+      encoding: 'utf-8'
     })
   : process.stdout;
 
