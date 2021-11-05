@@ -41,7 +41,7 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  // argArr = '-i data\\input.txt --output data\\output.txt  -c C0'.split(' ');
+  //argArr = '-i data\\input.txt --output data\\output.txt  -c C0'.split(' ');
   const inp = argArr.findIndex((el) => el.match(inputPattern));
   const out = argArr.findIndex((el) => el.match(outputPattern));
   const conf = argArr.findIndex((el) => el.match(confPattern));

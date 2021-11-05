@@ -9,7 +9,7 @@ const arg = getArguments(process.argv.slice(2), __dirname);
 const readStream = arg.i
   ? fs.createReadStream(arg.i, { encoding: "utf-8" })
   : process.stdin;
-// const readStream = new ReadStream(arg)
+// const readStream = new ReadStream(arg.i)
 const transform = new TransformEncode(arg, {});
 const writeStream = getFileSrc(arg.o, fs.constants.W_OK)
   ? fs.createWriteStream(arg.o, {
