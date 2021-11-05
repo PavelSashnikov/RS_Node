@@ -1,7 +1,7 @@
 const { getNewLetterCode, SHIFT } = require("./helpers");
 
 function encode(string, conf) {
-  const shift = SHIFT[conf[0].toLowerCase()];
+  const shift = SHIFT[conf[0]];
   const direction = +conf[1];
   const strArr = string.split("");
 
