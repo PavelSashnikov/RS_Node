@@ -1,5 +1,5 @@
 class GlobalError extends Error {
-  constructor(message) {
+  constructor(message = 'oops :(') {
     super(message);
     this.name = "Error";
     process.stderr.write(`${this.name}: ${message}`);

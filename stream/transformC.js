@@ -1,5 +1,6 @@
 const { Transform } = require("stream");
 const { encode } = require("../encode");
+const { GlobalError } = require("../err/globalErr");
 const { StreamError } = require("../err/streamErr");
 
 class TransformEncodeC extends Transform {
@@ -13,7 +14,11 @@ class TransformEncodeC extends Transform {
     });
   }
   _transform(chunk, enc, done) {
-    this.push(encode(chunk.toString(), this._conf));
+    try {
+      this.push(encode(chunk.toString(), this._conf));
+    } catch {
+      throw new GlobalError();
+    }
     done();
   }
 }
