@@ -38,7 +38,9 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  // argArr = "-i data\\input.txt --output data\\output.txt  -c C1-C1-R0-A".split(" ");
+  argArr = "-i data\\input.txt --output data\\outpu.txt  -c C1-C1-R0-A".split(
+    " "
+  );
   try {
     findDuplicated(argArr);
   } catch ({ message }) {
@@ -81,12 +83,21 @@ function findDuplicated(arr) {
   }
 }
 
+function checkFileAccess(path, key) {
+  try {
+    fs.accessSync(path, fs.constants.F_OK | key);
+  } catch (err) {
+    throw new FileError(err.message);
+  }
+}
+
 function getFileSrc(path, key) {
   if (path) {
     try {
-      fs.accessSync(path, fs.constants.F_OK | key);
-    } catch (err) {
-      throw new FileError(err.message);
+      checkFileAccess(path, key);
+    } catch ({ message }) {
+      process.stderr.write(message);
+      process.exit(6);
     }
     return true;
   }
