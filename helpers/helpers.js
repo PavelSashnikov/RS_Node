@@ -1,22 +1,16 @@
 const fs = require("fs");
-const { ValidationError } = require("./err/confErr");
-const { FileError } = require("./err/fileErr");
-const { GlobalError } = require("./err/globalErr");
-
-const minL = 97;
-const maxL = 122;
-const minU = 65;
-const maxU = 90;
-
-const SHIFT = {
-  C: 1,
-  R: 8,
-};
-
-const inputPattern = /^(-i)|^(--input)/;
-const outputPattern = /^(-o)|^(--output)/;
-const confPattern = /^(-c)|^(--config)/;
-const config = /^(([cr][01]-)|a-)*(([cr][01])|a)$/i;
+const { ValidationError } = require("../err/confErr");
+const { FileError } = require("../err/fileErr");
+const { GlobalError } = require("../err/globalErr");
+const {
+  minU,
+  minL,
+  maxU,
+  maxL,
+  inputPattern,
+  outputPattern,
+  confPattern,
+} = require("./constants");
 
 function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
   const min = isUpperCase ? minU : minL;
@@ -56,7 +50,6 @@ function getArguments(argArr, dir) {
 }
 
 function checkConfig(str) {
-  const errCode = 126;
   const norStr = str?.toUpperCase();
   if (!norStr) {
     throw new ValidationError(0);
@@ -88,4 +81,4 @@ function getFileSrc(path, key) {
   return false;
 }
 
-module.exports = { getNewLetterCode, getArguments, getFileSrc, SHIFT };
+module.exports = { getNewLetterCode, getArguments, getFileSrc };

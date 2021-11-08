@@ -17,7 +17,7 @@ class TransformEncodeA extends Transform {
     try {
       this.push(encode(chunk.toString(), this._conf));
     } catch {
-      throw new GlobalError();
+      throw new StreamError("TransformEncodeA", 'encode err');
     }
     done();
   }

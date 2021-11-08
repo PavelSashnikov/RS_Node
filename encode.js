@@ -1,4 +1,5 @@
-const { getNewLetterCode, SHIFT } = require("./helpers");
+const { getNewLetterCode } = require("./helpers/helpers");
+const { SHIFT } = require("./helpers/constants");
 
 function encode(string, conf) {
   const shift = SHIFT[conf[0]];

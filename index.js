@@ -1,21 +1,27 @@
 const fs = require("fs");
-const { getArguments, getFileSrc } = require("./helpers");
+const { pipeline } = require("stream");
+const { getArguments, getFileSrc } = require("./helpers/helpers");
+const { ENCODE } = require("./helpers/constants");
+const { encodeChain } = require("./encodeChain");
 const { ReadStream } = require("./stream/read");
 const { GlobalError } = require("./err/globalErr");
-const { pipeline } = require("stream");
-const { encodeChain } = require("./encodeChain");
+const { WriteDataStream } = require("./stream/wrire");
 
+process.on("uncaughtException", (err) => {
+  process.stderr.write(
+    `Something went wrong: ${err?.message || "unknown err"}`
+  );
+  process.exit(999);
+});
 const arg = getArguments(process.argv.slice(2), __dirname);
 
-const readStream = arg.i
-  ? fs.createReadStream(arg.i, { encoding: "utf-8" })
+const readStream = getFileSrc(arg.i, fs.constants.R_OK)
+  ? fs.createReadStream(arg.i, { encoding: ENCODE })
   : process.stdin;
-// const readStream = new ReadStream(arg.i)
-// const transform = new TransformEncodeC(arg, {});
+
 const writeStream = getFileSrc(arg.o, fs.constants.W_OK)
   ? fs.createWriteStream(arg.o, {
-      flags: "a",
-      encoding: 'utf-8'
+      encoding: ENCODE,
     })
   : process.stdout;
 

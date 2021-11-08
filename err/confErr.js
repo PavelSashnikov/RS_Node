@@ -7,8 +7,6 @@ class ValidationError extends Error {
       "duplicated config condition",
     ];
     this.name = "ValidationError";
-    process.stderr.write(`${this.name}: ${this.message[id] || "unknown err"}`);
-    process.exit(126);
   }
 }
 
