@@ -12,7 +12,7 @@ const maxU = 90;
 const inputPattern = /^(-i)|^(--input)/;
 const outputPattern = /^(-o)|^(--output)/;
 const confFlagPattern = /^(-c)|^(--config)/;
-const configPattern = /^(([cr][01]-)|a-)*(([cr][01])|a)$/i;
+const configPattern = /^(([CR][01]-)|A-)*(([CR][01])|A)$/;
 
 module.exports = {
   ENCODE,

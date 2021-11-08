@@ -1,6 +1,5 @@
 const { Transform } = require("stream");
 const { encode } = require("../encode");
-const { GlobalError } = require("../err/globalErr");
 const { StreamError } = require("../err/streamErr");
 
 class TransformEncodeA extends Transform {

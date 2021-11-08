@@ -5,23 +5,40 @@ const { getFileSrc } = require("../helpers/helpers");
 
 class ReadStream extends Readable {
   constructor(path = "", opts = {}) {
-    super(opts);
-    this.fileData = fs.readFileSync(path, opts, () => {
-      console.log("read data ", dat);
-    });
+    super();
+    this.path = path;
+    this.fd = null;
 
     this.on("error", (err) => {
       throw new StreamError("ReadStream", err.message);
     });
-    this.on("data", (c) => {
-      console.log("read data ", c);
+  }
+  _construct(callback) {
+    fs.open(this.path, (err, fd) => {
+      if (err) {
+        callback(err);
+      } else {
+        this.fd = fd;
+        callback();
+      }
     });
   }
-  _read(_) {
-    if (this.fileData) {
-      this.push(this.fileData);
+  _read(n) {
+    const buf = Buffer.alloc(n);
+    fs.read(this.fd, buf, 0, n, null, (err, bytesRead) => {
+      if (err) {
+        this.destroy(err);
+      } else {
+        this.push(bytesRead > 0 ? buf.slice(0, bytesRead) : null);
+      }
+    });
+  }
+  _destroy(err, callback) {
+    if (this.fd) {
+      fs.close(this.fd, (er) => callback(er || err));
+    } else {
+      callback(err);
     }
-    this.push(null);
   }
 }
 

@@ -38,18 +38,17 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  argArr = "-i data\\input.txt --output data\\outpu.txt  -c C1-C1-R0-A".split(
-    " "
-  );
   try {
     findDuplicated(argArr);
   } catch ({ message }) {
     process.stderr.write(message);
     process.exit(5);
   }
+  
   const inp = argArr.findIndex((el) => el.match(inputPattern));
   const out = argArr.findIndex((el) => el.match(outputPattern));
   const conf = argArr.findIndex((el) => el.match(confFlagPattern));
+
   try {
     const res = {
       i: inp === -1 ? "" : `${dir}\\${argArr[inp + 1]}`,
@@ -64,13 +63,12 @@ function getArguments(argArr, dir) {
 }
 
 function checkConfig(str) {
-  const norStr = str?.toUpperCase();
-  if (!norStr) {
+  if (!str) {
     throw new ValidationError(ERR_MESSAGE.conf.missed);
-  } else if (!norStr.match(configPattern)) {
+  } else if (!str.match(configPattern)) {
     throw new ValidationError(ERR_MESSAGE.conf.wrong);
   }
-  return norStr;
+  return str;
 }
 
 function findDuplicated(arr) {
