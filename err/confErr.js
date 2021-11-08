@@ -1,11 +1,6 @@
 class ValidationError extends Error {
-  constructor(id) {
-    super(id);
-    this.message = [
-      "config missed",
-      "wrong config",
-      "duplicated config condition",
-    ];
+  constructor(message) {
+    super(message);
     this.name = "ValidationError";
   }
 }

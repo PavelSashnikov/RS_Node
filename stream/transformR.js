@@ -14,11 +14,7 @@ class TransformEncodeR extends Transform {
     });
   }
   _transform(chunk, enc, done) {
-    try {
-      this.push(encode(chunk.toString(), this._conf));
-    } catch {
-      throw new GlobalError();
-    }
+    this.push(encode(chunk.toString(), this._conf));
     done();
   }
 }

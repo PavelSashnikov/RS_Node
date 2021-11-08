@@ -14,11 +14,7 @@ class TransformEncodeA extends Transform {
     });
   }
   _transform(chunk, enc, done) {
-    try {
-      this.push(encode(chunk.toString(), this._conf));
-    } catch {
-      throw new StreamError("TransformEncodeA", 'encode err');
-    }
+    this.push(encode(chunk.toString(), this._conf));
     done();
   }
 }

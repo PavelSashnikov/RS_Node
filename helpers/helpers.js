@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { ValidationError } = require("../err/confErr");
+const { ERR_MESSAGE } = require("../err/errMessages");
 const { FileError } = require("../err/fileErr");
 const { GlobalError } = require("../err/globalErr");
 const {
@@ -9,7 +10,8 @@ const {
   maxL,
   inputPattern,
   outputPattern,
-  confPattern,
+  configPattern,
+  confFlagPattern,
 } = require("./constants");
 
 function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
@@ -37,24 +39,34 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 
 function getArguments(argArr, dir) {
   // argArr = "-i data\\input.txt --output data\\output.txt  -c C1-C1-R0-A".split(" ");
-  findDuplicated(argArr);
+  try {
+    findDuplicated(argArr);
+  } catch ({ message }) {
+    process.stderr.write(message);
+    process.exit(5);
+  }
   const inp = argArr.findIndex((el) => el.match(inputPattern));
   const out = argArr.findIndex((el) => el.match(outputPattern));
-  const conf = argArr.findIndex((el) => el.match(confPattern));
-  const res = {
-    i: inp === -1 ? "" : `${dir}\\${argArr[inp + 1]}`,
-    o: out === -1 ? "" : `${dir}\\${argArr[out + 1]}`,
-    c: conf === -1 ? checkConfig("") : checkConfig(argArr[conf + 1]),
-  };
-  return res;
+  const conf = argArr.findIndex((el) => el.match(confFlagPattern));
+  try {
+    const res = {
+      i: inp === -1 ? "" : `${dir}\\${argArr[inp + 1]}`,
+      o: out === -1 ? "" : `${dir}\\${argArr[out + 1]}`,
+      c: conf === -1 ? checkConfig("") : checkConfig(argArr[conf + 1]),
+    };
+    return res;
+  } catch ({ message }) {
+    process.stderr.write(message);
+    process.exit(4);
+  }
 }
 
 function checkConfig(str) {
   const norStr = str?.toUpperCase();
   if (!norStr) {
-    throw new ValidationError(0);
-  } else if (!norStr.match(config)) {
-    throw new ValidationError(1);
+    throw new ValidationError(ERR_MESSAGE.conf.missed);
+  } else if (!norStr.match(configPattern)) {
+    throw new ValidationError(ERR_MESSAGE.conf.wrong);
   }
   return norStr;
 }
@@ -65,7 +77,7 @@ function findDuplicated(arr) {
   });
 
   if (res) {
-    throw new GlobalError("duplicated parameters was found");
+    throw new GlobalError(ERR_MESSAGE.params.dupl);
   }
 }
 
