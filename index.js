@@ -14,7 +14,7 @@ process.on("uncaughtException", (err) => {
   process.exit(999);
 });
 
-const arg = getArguments(process.argv.slice(2), __dirname);
+const arg = getArguments(process.argv.slice(2));
 
 const readStream = getFileSrc(arg.i, fs.constants.R_OK)
   ? new ReadStream(arg.i, { encoding: ENCODE })

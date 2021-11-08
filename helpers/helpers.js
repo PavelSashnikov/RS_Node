@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const { ValidationError } = require("../err/confErr");
 const { ERR_MESSAGE } = require("../err/errMessages");
 const { FileError } = require("../err/fileErr");
@@ -38,7 +39,10 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  // argArr = '-i data\\input.txt --output data\\output.txt -c C1-R1-C0-C0-A-R0-R1-R1-A-C1'.split(' ')
+  // argArr =
+  //   "-i --output data\\output.txt -c C1-R1-C0-C0-A-R0-R1-R1-A-C1".split(
+  //     " "
+  //   );
   try {
     findDuplicated(argArr);
   } catch ({ message }) {
@@ -52,8 +56,8 @@ function getArguments(argArr, dir) {
 
   try {
     const res = {
-      i: inp === -1 ? "" : `${dir}\\${argArr[inp + 1]}`,
-      o: out === -1 ? "" : `${dir}\\${argArr[out + 1]}`,
+      i: inp === -1 ? "" : `${path.resolve(argArr[inp + 1] || '')}`,
+      o: out === -1 ? "" : `${path.resolve(argArr[out + 1] || '')}`,
       c: conf === -1 ? checkConfig("") : checkConfig(argArr[conf + 1]),
     };
     return res;
@@ -84,7 +88,6 @@ function findDuplicated(arr) {
     return arr.lastIndexOf(el) != i;
   });
 
-  console.log("🚀 ~ file: helpers.js ~ line 88 ~ findDuplicated ~ res", res)
   if (res) {
     throw new GlobalError(ERR_MESSAGE.params.dupl);
   }

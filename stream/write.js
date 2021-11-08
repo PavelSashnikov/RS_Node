@@ -24,10 +24,9 @@ class WriteDataStream extends Writable {
   }
   _write(chunk, encoding, cb) {
     if (chunk) {
-      fs.write(this.fd, chunk, (err, d, r) => {
+      fs.write(this.fd, chunk, (err, d) => {
         if (err) {
-          process.stderr.write(err?.message);
-          process.exit(7);
+          throw new StreamError("WriteDataStream", err.message);
         }
       });
       cb();
