@@ -13,7 +13,7 @@ class WriteDataStream extends Writable {
   }
 
   _construct(callback) {
-    fs.open(this._path, 'a', (err, fd) => {
+    fs.open(this._path, "a", (err, fd) => {
       if (err) {
         callback(err);
       } else {
@@ -22,22 +22,15 @@ class WriteDataStream extends Writable {
       }
     });
   }
-  _write(chunk, encoding) {
+  _write(chunk, encoding, cb) {
     if (chunk) {
-      fs.write(this.fd, chunk, (err) => {
+      fs.write(this.fd, chunk, (err, d, r) => {
         if (err) {
-          process.stderr.write("wow" + err?.message);
+          process.stderr.write(err?.message);
           process.exit(7);
         }
       });
-    }
-  }
-
-  _destroy(err, callback) {
-    if (this.fd) {
-      fs.close(this.fd, (er) => callback(er || err));
-    } else {
-      callback(err);
+      cb();
     }
   }
 }

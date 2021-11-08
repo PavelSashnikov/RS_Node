@@ -38,13 +38,14 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
+  // argArr = '-i data\\input.txt --output data\\output.txt -c C1-R1-C0-C0-A-R0-R1-R1-A-C1'.split(' ')
   try {
     findDuplicated(argArr);
   } catch ({ message }) {
     process.stderr.write(message);
     process.exit(5);
   }
-  
+
   const inp = argArr.findIndex((el) => el.match(inputPattern));
   const out = argArr.findIndex((el) => el.match(outputPattern));
   const conf = argArr.findIndex((el) => el.match(confFlagPattern));
@@ -73,9 +74,17 @@ function checkConfig(str) {
 
 function findDuplicated(arr) {
   const res = arr.some(function (el, i, arr) {
-    return arr.lastIndexOf(el) != i && el[0] === "-";
+    if (el[0] !== "-") {
+      return false;
+    }
+    if (el.length > 2) {
+      const short = `${el[1]}${el[2]}`;
+      return arr.lastIndexOf(el) != i || arr.indexOf(short) !== -1;
+    }
+    return arr.lastIndexOf(el) != i;
   });
 
+  console.log("🚀 ~ file: helpers.js ~ line 88 ~ findDuplicated ~ res", res)
   if (res) {
     throw new GlobalError(ERR_MESSAGE.params.dupl);
   }
