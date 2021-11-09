@@ -56,8 +56,8 @@ function getArguments(argArr, dir) {
 
   try {
     const res = {
-      i: inp === -1 ? "" : `${path.resolve(argArr[inp + 1] || '')}`,
-      o: out === -1 ? "" : `${path.resolve(argArr[out + 1] || '')}`,
+      i: inp === -1 ? "" : `${path.resolve(argArr[inp + 1])}`,
+      o: out === -1 ? "" : `${path.resolve(argArr[out + 1])}`,
       c: conf === -1 ? checkConfig("") : checkConfig(argArr[conf + 1]),
     };
     return res;
