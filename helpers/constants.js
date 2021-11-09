@@ -9,9 +9,9 @@ const maxL = 122;
 const minU = 65;
 const maxU = 90;
 
-const inputPattern = /^(-i)|^(--input)/;
-const outputPattern = /^(-o)|^(--output)/;
-const confFlagPattern = /^(-c)|^(--config)/;
+const inputPattern = /^(-i)$|^(--input)$/;
+const outputPattern = /^(-o)$|^(--output)$/;
+const confFlagPattern = /^(-c)$|^(--config)$/;
 const configPattern = /^(([CR][01]-)|A-)*(([CR][01])|A)$/;
 
 module.exports = {

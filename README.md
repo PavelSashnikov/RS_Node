@@ -12,6 +12,7 @@ use the command `node index.js` from project folder.
  **-c, --config**: config for ciphers  
  **-i, --input**: a path to input file  
  **-o, --output**: a path to output file  
+ ***other parameters will be ignored***
  #### Details:
  Config is a string with pattern `{XY(-)}n`, where:
   * `X` is a cipher mark:
