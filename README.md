@@ -29,7 +29,7 @@ use the command `node index.js` from project folder.
 $ node index.js -c "C1-C1-R0-A" -i "./data/input.txt" -o "./data/output.txt"
 ```
 ```bash
-$ node my_ciphering_cli -c "C1-C0-A-R1-R0-A-R0-R0-C1-A" -i "./data/input.txt" -o "./data/output.txt"
+$ node index.js -c "C1-C0-A-R1-R0-A-R0-R0-C1-A" -i "./data/input.txt" -o "./data/output.txt"
 ```
 
 
