@@ -4,7 +4,8 @@
   "description": "Caesar cipher cli tool",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/PavelSashnikov/RS_Node#readme",
   "devDependencies": {
+    "@types/jest": "^27.0.2",
     "jest": "^27.3.1"
   }
 }
