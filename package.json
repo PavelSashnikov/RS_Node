@@ -1,0 +1,27 @@
+{
+  "name": "rs_node",
+  "version": "1.0.0",
+  "description": "Caesar cipher cli tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PavelSashnikov/RS_Node.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "caesar"
+  ],
+  "author": "PavelSashnikov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PavelSashnikov/RS_Node/issues"
+  },
+  "homepage": "https://github.com/PavelSashnikov/RS_Node#readme",
+  "devDependencies": {
+    "jest": "^27.3.1"
+  }
+}

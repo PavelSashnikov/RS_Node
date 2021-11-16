@@ -1,11 +1,11 @@
 const fs = require("fs");
 const { pipeline } = require("stream");
-const { getArguments, getFileSrc } = require("./helpers/helpers");
-const { ENCODE } = require("./helpers/constants");
-const { encodeChain } = require("./encodeChain");
-const { ReadStream } = require("./stream/read");
-const { GlobalError } = require("./err/globalErr");
-const { WriteDataStream } = require("./stream/write");
+const { getArguments, getFileSrc } = require("./src/helpers/helpers");
+const { ENCODE } = require("./src/helpers/constants");
+const { encodeChain } = require("./src/encodeChain");
+const { ReadStream } = require("./src/stream/read");
+const { GlobalError } = require("./src/err/globalErr");
+const { WriteDataStream } = require("./src/stream/write");
 
 process.on("uncaughtException", (err) => {
   process.stderr.write(
