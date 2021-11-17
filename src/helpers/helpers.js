@@ -39,10 +39,6 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  // argArr =
-  //   "-i --output data\\output.txt -c C1-R1-C0-C0-A-R0-R1-R1-A-C1".split(
-  //     " "
-  //   );
   try {
     findDuplicated(argArr);
   } catch ({ message }) {
