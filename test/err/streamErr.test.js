@@ -1,7 +1,7 @@
 jest.mock('../../src/err/streamErr');
 const { StreamError } = require('../../src/err/streamErr');
 
-describe('Config err (validation)', () => {
+describe('Stream err', () => {
   beforeAll(() => {
     StreamError.mockImplementation(() => StreamError);
   });

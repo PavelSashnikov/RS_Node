@@ -1,7 +1,7 @@
 jest.mock('../../src/err/globalErr');
 const { GlobalError } = require('../../src/err/globalErr');
 
-describe('Config err (validation)', () => {
+describe('Global err', () => {
   beforeAll(() => {
     GlobalError.mockImplementation(() => GlobalError);
   });

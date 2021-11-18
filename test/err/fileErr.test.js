@@ -1,7 +1,7 @@
 jest.mock('../../src/err/fileErr');
 const { FileError } = require('../../src/err/fileErr');
 
-describe('Config err (validation)', () => {
+describe('File err', () => {
   beforeAll(() => {
     FileError.mockImplementation(() => FileError);
   });
