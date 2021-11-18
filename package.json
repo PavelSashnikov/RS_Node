@@ -25,5 +25,12 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "jest": "^27.3.1"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "src/*.js"
+    ]
   }
 }
