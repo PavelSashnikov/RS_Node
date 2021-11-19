@@ -23,6 +23,11 @@ describe('getNewLetterCode func should return', () => {
     expect(getNewLetterCode(98, false, 0, 0)).toBe(121);
     expect(getNewLetterCode(66, true, 0, 0)).toBe(89);
   });
+
+  test('curcular letterCode', () => {
+    expect(getNewLetterCode(122, false, 1, 1)).toBe(97);
+    expect(getNewLetterCode(64, true, 0, 0)).toBe(90);
+  });
 });
 
 describe('GetArguments func should return', () => {

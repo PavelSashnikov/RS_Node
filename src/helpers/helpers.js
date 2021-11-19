@@ -39,7 +39,6 @@ function getNewLetterCode(letterCode, isUpperCase, shift, direction) {
 }
 
 function getArguments(argArr, dir) {
-  console.log("🚀 ~ file: helpers.js ~ line 42 ~ getArguments ~ argArr", argArr)
   try {
     findDuplicated(argArr);
   } catch ({ message }) {
