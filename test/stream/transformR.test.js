@@ -1,4 +1,3 @@
-jest.mock('../../src/stream/transformR');
 const { TransformEncodeR } = require('../../src/stream/transformR');
 jest.mock('fs');
 const fs = require('fs');
@@ -11,23 +10,28 @@ describe('TransformEncodeR stream', () => {
   let testData;
 
   beforeAll(() => {
-    TransformEncodeR.mockImplementation(() => TransformEncodeR);
     testData = fs.readFileSync(filePath, 'utf-8');
   });
 
-  afterEach(() => {
-    TransformEncodeR.mockClear();
-  });
+  afterEach(() => {});
 
-  test('can call the constructor', () => {
+  test('can call transform', () => {
+    const cb = jest.fn();
     const instance = new TransformEncodeR('');
-    expect(instance).toHaveBeenCalledTimes(1);
+    instance._transform('data', 'utf-8', cb);
+    expect(cb).toHaveBeenCalled();
   });
-
   test('can get data', () => {
     const instance = new TransformEncodeR(filePath);
     instance.on('data', (data) => {
       expect(data).toBe(testData);
     });
+  });
+
+  test('can call error', () => {
+    const instance = new TransformEncodeR(filePath);
+    expect(() => instance.emit('error', { message: 'test error' })).toThrow(
+      StreamError
+    );
   });
 });

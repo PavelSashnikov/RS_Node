@@ -16,8 +16,6 @@ describe('Read stream', () => {
     testData = fs.readFileSync(filePath, 'utf-8');
   });
 
-  afterEach(() => {});
-
   test('can get data', () => {
     const instance = new ReadStream(filePath);
     instance.on('data', (data) => {
@@ -34,14 +32,17 @@ describe('Read stream', () => {
   });
 
   test('should open file', async () => {
-    const instance = () => {
-      return new Promise((r) => {
-        return new ReadStream(filePath);
-      });
-    };
-    instance().then(() => {
-      expect(spyOpen).toHaveBeenCalled();
-    });
+    const cb = jest.fn();
+    const instance = new ReadStream(filePath);
+    instance._construct(cb);
+    expect(spyOpen).toHaveBeenCalled();
+  });
+
+  test('should call callback', async () => {
+    const cb = jest.fn();
+    const instance = new ReadStream(filePath);
+    instance._construct(cb);
+    expect(cb).not.toHaveBeenCalled();
   });
 
   test('should read file', async () => {
@@ -64,5 +65,31 @@ describe('Read stream', () => {
     instance().then(() => {
       expect(spyClose).toHaveBeenCalled();
     });
+  });
+  test('has read method', async () => {
+    const instance = new ReadStream(filePath);
+    expect(instance._read(20)).not.toBeDefined();
+  });
+
+  test('has destroy method', async () => {
+    const cb = jest.fn();
+    const instance = new ReadStream(filePath);
+    instance._destroy('err', cb);
+    expect(cb).toHaveBeenCalled();
+  });
+
+  test('has destroy method (empty path)', async () => {
+    const cb = jest.fn();
+    const instance = new ReadStream();
+    instance.fd = true;
+    instance._destroy('err', cb);
+    expect(cb).not.toHaveBeenCalled();
+  });
+
+  test('can call error', () => {
+    const instance = new ReadStream();
+    expect(() => instance.emit('error', { message: 'test error' })).toThrow(
+      StreamError
+    );
   });
 });
