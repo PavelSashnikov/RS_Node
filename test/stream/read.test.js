@@ -87,9 +87,18 @@ describe('Read stream', () => {
   });
 
   test('can call error', () => {
-    const instance = new ReadStream();
+    const instance = new ReadStream(filePath);
     expect(() => instance.emit('error', { message: 'test error' })).toThrow(
       StreamError
     );
+  });
+
+  test('can call error', () => {
+    const cb = jest.fn();
+    spyOpen.mockImplementationOnce(() => {
+      throw new StreamError();
+    });
+    const instance = new ReadStream(filePath);
+    expect(instance._construct(cb)).toBeInstanceOf(StreamError);
   });
 });
