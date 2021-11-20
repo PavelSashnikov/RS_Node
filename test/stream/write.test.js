@@ -32,4 +32,27 @@ describe('Write stream', () => {
       StreamError
     );
   });
+
+  test('should cb called (err)', async () => {
+    const instance = new WriteDataStream(filePathOut);
+    try {
+      instance._writeCb()('err', '');
+    } catch (err) {
+      expect(err).toBeInstanceOf(StreamError);
+    }
+  });
+
+  test('should cb called (err)', async () => {
+    const cb = jest.fn();
+    const instance = new WriteDataStream(filePathOut);
+    instance._openCb(cb)('err', '');
+    expect(cb).toHaveBeenCalled();
+  });
+
+  test('should ccb called', async () => {
+    const cb = jest.fn();
+    const instance = new WriteDataStream(filePathOut);
+    instance._openCb(cb)('', '');
+    expect(cb).toHaveBeenCalled();
+  });
 });
