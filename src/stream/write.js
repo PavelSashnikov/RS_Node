@@ -3,12 +3,12 @@ const { Writable } = require("stream");
 const { StreamError } = require("../err/streamErr");
 
 class WriteDataStream extends Writable {
-  constructor(path = "", arg = {}) {
+  constructor(path, arg = {}) {
     super();
     this._path = path;
     this._arg = arg;
     this.on("error", ({ message }) => {
-      throw new StreamError("WriteDataStream", message || "unknown err");
+      throw new StreamError("WriteDataStream", message);
     });
   }
 

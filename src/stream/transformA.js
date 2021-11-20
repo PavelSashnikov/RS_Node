@@ -7,9 +7,7 @@ class TransformEncodeA extends Transform {
     super(opts);
     this._conf = conf;
     this.on('error', (err) => {
-      if (err) {
-        throw new StreamError('TransformEncodeA', err?.message);
-      }
+      throw new StreamError('TransformEncodeA', err?.message);
     });
   }
   _transform(chunk, enc, done) {

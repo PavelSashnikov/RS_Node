@@ -25,7 +25,6 @@ describe('Read stream', () => {
 
   test('should trow err', () => {
     const instance = new ReadStream(filePath);
-
     expect(() => instance.emit('error', { message: 'test' })).toThrow(
       StreamError
     );
@@ -46,35 +45,35 @@ describe('Read stream', () => {
   });
 
   test('should read file', async () => {
-    const instance = () => {
-      return new Promise((r) => {
-        return new ReadStream(filePath);
-      });
-    };
-    instance().then(() => {
-      expect(spyRead).toHaveBeenCalled();
-    });
-  });
-
-  test('should close file', async () => {
-    const instance = () => {
-      return new Promise((r) => {
-        return new ReadStream(filePath);
-      });
-    };
-    instance().then(() => {
-      expect(spyClose).toHaveBeenCalled();
-    });
-  });
-  test('has read method', async () => {
     const instance = new ReadStream(filePath);
-    expect(instance._read(20)).not.toBeDefined();
+    expect(instance._read(10)).not.toBeDefined();
   });
 
-  test('has destroy method', async () => {
+  test('should read cb called (err)', async () => {
+    const instance = new ReadStream(filePath);
+    const destr = jest.spyOn(instance, 'destroy');
+    instance._readCb()('err', '');
+    expect(destr).toHaveBeenCalled();
+  });
+
+  test('should read cb called (push)', async () => {
+    const instance = new ReadStream(filePath);
+    const destr = jest.spyOn(instance, 'push');
+    instance._readCb()('', 'data');
+    expect(destr).toHaveBeenCalled();
+  });
+
+  test('should cb called (err)', async () => {
     const cb = jest.fn();
     const instance = new ReadStream(filePath);
-    instance._destroy('err', cb);
+    instance._openCb(cb)('err', '');
+    expect(cb).toHaveBeenCalled();
+  });
+
+  test('should ccb called', async () => {
+    const cb = jest.fn();
+    const instance = new ReadStream(filePath);
+    instance._openCb(cb)('', '');
     expect(cb).toHaveBeenCalled();
   });
 
@@ -84,21 +83,5 @@ describe('Read stream', () => {
     instance.fd = true;
     instance._destroy('err', cb);
     expect(cb).not.toHaveBeenCalled();
-  });
-
-  test('can call error', () => {
-    const instance = new ReadStream(filePath);
-    expect(() => instance.emit('error', { message: 'test error' })).toThrow(
-      StreamError
-    );
-  });
-
-  test('can call error', () => {
-    const cb = jest.fn();
-    spyOpen.mockImplementationOnce(() => {
-      throw new StreamError();
-    });
-    const instance = new ReadStream(filePath);
-    expect(instance._construct(cb)).toBeInstanceOf(StreamError);
   });
 });
