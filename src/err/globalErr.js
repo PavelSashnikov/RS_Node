@@ -1,5 +1,5 @@
 class GlobalError extends Error {
-  constructor(message = 'oops :(') {
+  constructor(message) {
     super(message);
     this.name = "Error";
   }

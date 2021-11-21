@@ -1,15 +1,13 @@
-const { Transform } = require("stream");
-const { encode } = require("../encode");
-const { StreamError } = require("../err/streamErr");
+const { Transform } = require('stream');
+const { encode } = require('../encode');
+const { StreamError } = require('../err/streamErr');
 
 class TransformEncodeA extends Transform {
   constructor(conf, opts = {}) {
     super(opts);
     this._conf = conf;
-    this.on("error", (err) => {
-      if (err) {
-        throw new StreamError("TransformEncodeA", err?.message);
-      }
+    this.on('error', (err) => {
+      throw new StreamError('TransformEncodeA', err?.message);
     });
   }
   _transform(chunk, enc, done) {

@@ -1,5 +1,5 @@
 class StreamError extends Error {
-  constructor(stream, message = '') {
+  constructor(stream, message) {
     super(message);
     this.name = `Stream ERR at ${stream}`;
   }
